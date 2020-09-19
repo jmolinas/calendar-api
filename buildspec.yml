@@ -1,0 +1,39 @@
+version: 0.2
+env:
+  git-credential-helper: yes
+
+phases:
+  install:
+    commands:
+      - apt-get update
+      - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+      - php composer-setup.php ;
+      - php -r "unlink('composer-setup.php');" ;
+      - mv composer.phar /usr/local/bin/composer
+
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Installing composer deps
+      - composer install
+      - cp .env.example .env
+
+artifacts:
+  files:
+    - .platform/**/*
+    - vendor/**/*
+    - app/**/*
+    - bootstrap/**/*
+    - storage/**/*
+    - config/**/*
+    - database/**/*
+    - public/**/*
+    - resources/**/*
+    - router/**/*
+    - routes/**/*
+    - tests/**/*
+    - .env
+    - artisan
+    - readme.md
+    - composer.json
+    - phpunit.xml
