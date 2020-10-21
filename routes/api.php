@@ -24,12 +24,25 @@ $router->group(
     'prefix' => 'api/v1',
   ],
   function () use ($router) {
+    $router->post('auth/login', 'AuthController@login');
     // Events
-    $schedule = ScheduleDates::class;
-    $router->post('events', 'ScheduleController@create');
-    $router->get('events', [
-      'uses' => 'ScheduleController@collection',
-      'middleware' => ["api:{$schedule}"],
-    ]);
+    $router->group(
+      [
+        'middleware' => [
+          'auth',
+        ],
+      ],
+      function () use ($router) {
+        $router->post('auth/logout', 'AuthController@logout');
+        $router->get('user', 'AuthController@user');
+
+        $schedule = ScheduleDates::class;
+        $router->post('events', 'ScheduleController@create');
+        $router->get('events', [
+          'uses' => 'ScheduleController@collection',
+          'middleware' => ["api:{$schedule}"],
+        ]);
+      }
+    );
   }
 );

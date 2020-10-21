@@ -83,7 +83,8 @@ $app->middleware(
 
 $app->routeMiddleware(
     [
-        'api' => App\Http\Middleware\JsonApiScope::class
+        'api' => App\Http\Middleware\JsonApiScope::class,
+        'auth' => Tymon\JWTAuth\Http\Middleware\AuthenticateAndRenew::class
     ]
 );
 /*
@@ -99,6 +100,7 @@ $app->routeMiddleware(
 
 $app->register(Fruitcake\Cors\CorsServiceProvider::class);
 $app->register(App\Providers\PaginationServiceProvider::class);
+$app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
